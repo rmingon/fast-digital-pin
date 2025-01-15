@@ -2,6 +2,51 @@
 
 A lightweight and efficient library for controlling pins on AVR microcontrollers using macros and inline functions. This library allows direct manipulation of pin states and modes, making it ideal for low-level hardware control.
 
+## Difference Between Using Arduino Functions and Macros
+
+When working with AVR microcontrollers, developers often use the Arduino framework for convenience. While Arduino functions like `digitalWrite()`, `pinMode()`, and `digitalRead()` are easy to use and abstract the hardware details, they come with some trade-offs compared to using macros or direct register manipulation.
+
+### Arduino Functions
+
+1. **Ease of Use**:
+   - Functions like `digitalWrite(pin, HIGH)` are intuitive and readable.
+   - No need to know about registers or bit manipulation.
+
+2. **Portability**:
+   - Code written with Arduino functions can work across multiple microcontrollers supported by Arduino without modification.
+
+3. **Performance**:
+   - These functions have additional overhead as they include checks, validation, and abstractions.
+   - On an AVR running at 16 MHz, `digitalWrite()` can take approximately 50 clock cycles or more to execute.
+
+### Macros and Direct Register Manipulation
+
+1. **Efficiency**:
+   - Macros like `SET_PIN_HIGH(PORTB, PB0)` directly manipulate the hardware registers, resulting in near-instant execution (usually within 1-2 clock cycles).
+   - Critical for time-sensitive applications such as high-frequency toggling or precise timing.
+
+2. **Low-Level Control**:
+   - Provides direct access to microcontroller features without unnecessary abstraction.
+   - Ideal for scenarios where performance and resource usage are priorities.
+
+3. **Complexity**:
+   - Requires understanding of AVR registers (`PORTx`, `DDRx`, `PINx`) and bitwise operations.
+   - Less portable as the code is tightly coupled with the specific microcontroller’s hardware.
+
+### Comparison Table
+
+| Feature                     | Arduino Functions      | AVR Macros/Direct Registers    |
+|-----------------------------|------------------------|---------------------------------|
+| **Ease of Use**             | High                  | Low                             |
+| **Performance**             | Moderate (High Overhead)| High (Low Overhead)            |
+| **Portability**             | High                  | Low                             |
+| **Timing Critical Applications** | Not Ideal          | Ideal                           |
+| **Abstraction**             | High                  | Low                             |
+
+### Conclusion
+
+If you're working on a simple project where timing and performance are not critical, Arduino functions are a great choice for their ease of use and abstraction. However, for time-sensitive tasks or when maximum efficiency is required, using this library's macros for direct control of pins is the better option.
+
 ## Features
 
 - **Set, Clear, Toggle, and Read Pins** with simple macros.
